@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Studio, type: :model do
-  before(:each) do
-    # Studios:
+RSpec.describe 'As a user', type: :feature do
+  describe 'When I visit the studio index page' do
+    before(:each) do
+      # Studios:
       @castlerock_ent = Studio.create!(name: 'Castle Rock Entertainment', location: 'Los Angeles, CA')
       @paramount_pictures = Studio.create!(name: 'Paramount Pictures', location: 'Los Angeles, CA')
 
@@ -21,21 +22,22 @@ RSpec.describe Studio, type: :model do
       actmov3 = ActorMovie.create!(actor_id: @leo_dicap.id, movie_id: @titanic.id)
       actmov4 = ActorMovie.create!(actor_id: @leo_dicap.id, movie_id: @shutter_island.id)
     end
-  
-  describe 'validations' do
-    it { should validate_presence_of :name}
-    it { should validate_presence_of :location}
-  end
-  
-  describe 'relationships' do
-    it {should have_many :movies}
-  end
+    # User Story 1 
+    it ' I see a list of all of the movie studios he names of all of its movies' do
+      visit studios_path 
 
-  # User Story 1
-  describe 'All of the movies associated to a studio' do
-    it 'Can list names of all of its movies' do
-      expect(@paramount_pictures.list_of_movies).to eq(["Shutter Island", "Titanic"])
-      expect(@castlerock_ent.list_of_movies).to eq(["Misery"])
+      within("#studio-info-#{@paramount_pictures.id}") do
+        expect(page).to have_content(@paramount_pictures.name)
+        expect(page).to have_content(@paramount_pictures.location)
+        expect(page).to have_content(@titanic.title)
+        expect(page).to have_content(@shutter_island.title)
+      end
+
+      within("#studio-info-#{@castlerock_ent.id}") do
+        expect(page).to have_content(@castlerock_ent.name)
+        expect(page).to have_content(@castlerock_ent.location)
+        expect(page).to have_content(@misery.title)
+      end
     end
-  end 
+  end
 end
