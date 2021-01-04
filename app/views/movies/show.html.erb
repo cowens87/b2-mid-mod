@@ -1,0 +1,7 @@
+<section id="movie-details">
+  <h1><%= @movie.title %></h1>
+  <li>Creation Year:      <%= @movie.creation_year %> 
+  <li>Genre:              <%= @movie.genre%> 
+  <li>Actors:             <%= @movie.actors_by_age.pluck(:name).to_sentence%> 
+  <li>Average Actor Age:  <%= @movie.actor_avg_age %> 
+</section>

@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Movie, type: :model do
-  before(:each) do
-    # Studios:
+RSpec.describe 'As a user', type: :feature do
+  describe 'When I visit the movies show page' do
+    before(:each) do
+      # Studios:
       @castlerock_ent = Studio.create!(name: 'Castle Rock Entertainment', location: 'Los Angeles, CA')
       @paramount_pictures = Studio.create!(name: 'Paramount Pictures', location: 'Los Angeles, CA')
 
@@ -21,27 +22,20 @@ RSpec.describe Movie, type: :model do
       actmov3 = ActorMovie.create!(actor_id: @leo_dicap.id, movie_id: @titanic.id)
       actmov4 = ActorMovie.create!(actor_id: @leo_dicap.id, movie_id: @shutter_island.id)
     end
-  
-  describe 'validations' do
-    it { should validate_presence_of :title}
-    it { should validate_presence_of :creation_year}
-    it { should validate_presence_of :genre}
-  end
-  
-  describe 'relationships' do
-    it {should have_many :actor_movies}
-    it {should have_many(:actors).through(:actor_movies)}
-  end
-  # User Story 2
-  describe 'Name of all actors listed from oldest to youngest' do
-    it 'Can sort actors by age' do
-      expect(@titanic.actors_by_age.pluck(:name)).to eq(["Kathy Bates", "Leonardo Dicaprio"])
-    end
-  end
-  
-  describe 'The average age of all of the movies actors' do
-    it 'Can find the average age of actors' do
-      expect(@titanic.actor_avg_age.round).to eq(59)
+    # User Story 2
+    it ' I see a all of a movies details and all actors from oldest to youngest, along with average age' do
+      visit movie_path(@titanic.id) 
+
+      within("#movie-details") do
+        expect(page).to have_content(@titanic.title)
+        expect(page).to have_content(@titanic.creation_year)
+        expect(page).to have_content(@titanic.genre)
+        expect(page).to have_content(@kathy_bates.name)
+        expect(page).to have_content(@leo_dicap.name)
+        expect(@kathy_bates.name).to appear_before(@leo_dicap.name)
+        expect(@leo_dicap.name).to_not appear_before(@kathy_bates.name)
+        expect(page).to have_content("Average Actor Age: #{@titanic.actor_avg_age}")
+      end
     end
   end
 end

@@ -42,5 +42,24 @@ Once the time for the assessment is up, push your code to your fork and create a
 * You do not need to test for or create any model validations.
 
 ## User Stories
+Story 1 
+As a user, When I visit the studio index page 
+I see a list of all of the movie studios 
+And underneath each studio, I see the names of all of its movies.
 
-User stories will be released at the start of the assessment.
+Story 2
+As a user, When I visit a movie's show page. 
+I see the movie's title, creation year, and genre, 
+and a list of all its actors from youngest to oldest. 
+And I see the average age of all of the movie's actors
+
+Story 3
+As a user, When I visit a movie show page, 
+I see a form for an actors name 
+and when I fill in the form with an existing actor's name I am redirected back to that movie's show page And I see the actor's name listed 
+(You do not have to test for a sad path, for example if the id is not an existing actor)
+
+Extension
+Story 4 
+As a user, When I visit an actor's show page 
+I see that actors name and age And I see a unique list of all of the actors this particular actor has worked with.
