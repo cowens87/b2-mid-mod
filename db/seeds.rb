@@ -18,6 +18,7 @@
 # Actors:
 @kathy_bates = Actor.create!(name: 'Kathy Bates', age: 72)
 @leo_dicap = Actor.create!(name: 'Leonardo Dicaprio', age: 46)
+@james_caan = Actor.create!(name: 'James Caan', age: 80)
 
 # Actor_Movies:
 actmov1 = ActorMovie.create!(actor_id: @kathy_bates.id, movie_id: @misery.id)

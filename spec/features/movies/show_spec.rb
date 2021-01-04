@@ -15,6 +15,7 @@ RSpec.describe 'As a user', type: :feature do
       # Actors:
       @kathy_bates = Actor.create!(name: 'Kathy Bates', age: 72)
       @leo_dicap = Actor.create!(name: 'Leonardo Dicaprio', age: 46)
+      @james_caan = Actor.create!(name: 'James Caan', age: 80)
 
       # Actor_Movies:
       actmov1 = ActorMovie.create!(actor_id: @kathy_bates.id, movie_id: @misery.id)
@@ -36,6 +37,29 @@ RSpec.describe 'As a user', type: :feature do
         expect(@leo_dicap.name).to_not appear_before(@kathy_bates.name)
         expect(page).to have_content("Average Actor Age: #{@titanic.actor_avg_age}")
       end
+    end
+    # User Story 3
+    it 'I see a form to add an actors name to a movie and when I submit I go back to the show page And I see the actors info' do
+      visit movie_path(@misery.id) 
+
+      within("#movie-details") do
+        expect(page).to have_content(@misery.title)
+        expect(page).to have_content(@misery.creation_year)
+        expect(page).to have_content(@misery.genre)
+        expect(page).to have_content(@kathy_bates.name)
+        expect(page).to have_content("Average Actor Age: #{@misery.actor_avg_age}")
+      end
+
+      expect(page).to have_content('Add an Actor to Movie')
+      expect(page).to have_content("Name: James Caan")
+      expect(page).to have_content("Age: 80")
+
+      fill_in 'Name:', with: @james_caan.name
+      fill_in 'Age:', with: @james_caan.age
+      click_button 'Add'
+
+      expect(current_path).to eq(movie_path(@misery.id))
+      expect(page).to have_content(@james_caan.name)
     end
   end
 end
